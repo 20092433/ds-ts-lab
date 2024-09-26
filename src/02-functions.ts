@@ -1,5 +1,5 @@
 import { colleagues, friends } from './01-basics'
-import {Friend, Colleague} from './myTypes'
+import {Friend, Colleague, EmailContact} from './myTypes'
 
 interface Contact{
     extension: number;
@@ -40,14 +40,37 @@ interface Contact {
     extension: number;
 }
 //add a colleague to array, setting their extension to the highest plus 1
-function addColleague(cs: Colleague[], name: string, department: string, email: string): void {
-    const highestColleague = highestExtension(cs);
-    const newExtension = highestColleague ? highestColleague.contact.extension + 1 : 1; //start at 1 if empty array
+// function addColleague(cs: Colleague[], name: string, department: string, email: string): void {
+//     const highestColleague = highestExtension(cs);
+//     const newExtension = highestColleague ? highestColleague.contact.extension + 1 : 1; //start at 1 if empty array
 
-    const newColleague: Colleague = {
-        name: name,
-        contact: {extension: newExtension}
-    };
+//     const newColleague: Colleague = {
+//         name: name,
+//         contact: {extension: newExtension}
+//     };
 
-    cs.push(newColleague); //add the new colleague to the array
-}
+//     cs.push(newColleague); //add the new colleague to the array
+// }
+
+
+function sortColleagues(
+    colleagues: Colleague[],
+    sorter: (c1: Colleague, c2: Colleague) => number
+  ): EmailContact[] {
+    const sorted = colleagues.sort(sorter); // Colleague[] inferred
+    const result: EmailContact[] = sorted.map((ce) => ({ name: ce.name, email: ce.contact.email }));
+    return result 
+  }
+  
+  console.log(sortColleagues(colleagues.current, (a, b) => a.contact.extension - b.contact.extension));
+  console.log(sortColleagues(colleagues.current, (a, b) => a.name.length - b.name.length));
+
+
+  //a function to find friends based on a criterion specified by a callback
+  function findFriends(friends: Friend[], criterion: (friend: Friend) => boolean): Friend[] {
+    return friends.filter(criterion); //Filter friends based on the provided criterion 
+  }
+
+  //Testing the findFriends function
+  console.log(findFriends(friends, (friend) => friend.name.startsWith('Pa')));
+  console.log(findFriends(friends, (friend) => friend.age < 35));
