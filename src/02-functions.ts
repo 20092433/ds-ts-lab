@@ -79,3 +79,19 @@ function sortColleagues(
   //Testing the findFriends function
   console.log(findFriends(friends, (friend) => friend.name.startsWith('Pa')));
   console.log(findFriends(friends, (friend) => friend.age < 35));
+
+
+  function addInterest(friend: Friend, interest: string) : string[] {
+    //Check if the property interests exist and if it does not then create it
+    if (!friend.interests) {
+        friend.interests = [];
+
+    }
+
+    //add the new interest to the interests array
+    friend.interests.push(interest);
+
+    //return the updated array
+    return friend.interests;
+  }
+
